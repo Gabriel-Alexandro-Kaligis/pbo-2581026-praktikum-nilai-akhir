@@ -13,136 +13,80 @@ public class NilaiAkhir {
         // 4 nilai
         System.out.print("Nilai praktikum : ");
         double praktikum = scanner.nextDouble();
-
         System.out.print("Nilai tugas     : ");
         double tugas = scanner.nextDouble();
-
         System.out.print("Nilai MID       : ");
         double mid = scanner.nextDouble();
-
         System.out.print("Nilai final     : ");
-        double finalNilai = scanner.nextDouble();
-        // dipakai "finalNilai" karena "final" sudah dipakai Java
-
+        double finalNilai = scanner.nextDouble(); // dipakai "finalNilai" karena "final" sudah dipakai Java
 
         // ===== VERSI DOUBLE (bukan int) =====
-        // Hitung nilai akhir menggunakan double.
-        // Karena double bisa menyimpan angka desimal,
-        // hasil perhitungan tidak langsung membuang angka di belakang koma.
-        //
-        // Tanpa kurung juga bisa karena perkalian (*)
-        // dikerjakan lebih dulu sebelum penjumlahan (+) di Java.
-        double akhir = praktikum * BOBOT_PRAKTIKUM
-                + tugas * BOBOT_TUGAS
-                + mid * BOBOT_MID;
-
-        // Tambah nilai final menggunakan +=
-        akhir += finalNilai * BOBOT_FINAL;
-
+        // Hitung nilai akhir, tanpa kurung. Bisa gitu karena perkalian (*)
+        // memang dikerjakan duluan sebelum penjumlahan (+) di Java.
+        double akhir = praktikum * BOBOT_PRAKTIKUM + tugas * BOBOT_TUGAS + mid * BOBOT_MID;
+        akhir += finalNilai * BOBOT_FINAL; // tambah nilai final pakai +=
 
         // ===== VERSI INT =====
-        // Coba pakai int.
-        // Karena int tidak bisa menyimpan angka desimal,
-        // bagian desimal akan hilang pada setiap perhitungan.
-        //
-        // Contoh:
-        // 85 * 30 / 100 = 25.5
-        // Tetapi karena menggunakan int, hasilnya menjadi 25.
+        // Coba pakai int. Karena int dibagi int hasilnya dibulatkan ke
+        // bawah (desimalnya hilang di tiap komponen), hasil totalnya jadi
+        // lebih kecil: 78, bukan 79.1 kayak versi double.
         int praktikumInt = (int) praktikum;
         int tugasInt = (int) tugas;
         int midInt = (int) mid;
         int finalInt = (int) finalNilai;
+        int akhirInt = praktikumInt * 30 / 100 + tugasInt * 20 / 100
+                + midInt * 20 / 100 + finalInt * 30 / 100;
 
-        int akhirInt = praktikumInt * 30 / 100
-                + tugasInt * 20 / 100
-                + midInt * 20 / 100
-                + finalInt * 30 / 100;
+        // (int) = motong angka di belakang koma, ga dibulatin
+        // Math.round = beneran dibulatin ke angka terdekat
+        int dipotong = (int) akhir;
+        long dibulatkan = Math.round(akhir);
 
+        // Selisih buat nunjukin double gak 100% presisi nyimpen desimal
+        double selisih = akhir - dipotong;
 
-        // ===== PEMOTONGAN DAN PEMBULATAN =====
-        // (int) = memotong angka di belakang koma, bukan membulatkan.
-        //
-        // Contoh:
-        // 79.9 menjadi 79
-        // 79.1 menjadi 79
-        int dipotongDouble = (int) akhir;
-
-        // Math.round = membulatkan ke angka terdekat.
-        //
-        // Contoh:
-        // 79.4 menjadi 79
-        // 79.5 menjadi 80
-        // 79.9 menjadi 80
-        long dibulatkanDouble = Math.round(akhir);
-
-
-        // ===== SELISIH DOUBLE =====
-        // Selisih dihitung dari nilai double asli
-        // dikurangi nilai yang sudah dipotong menjadi int.
-        //
-        // Contoh:
-        // 79.1 - 79 = 0.1
-        double selisihDouble = akhir - dipotongDouble;
-
-
-        // ===== PEMBULATAN VERSI INT =====
-        // Karena akhirInt sudah berupa int,
-        // sebenarnya tidak ada angka desimal yang perlu dibulatkan.
-        // Math.round tetap digunakan untuk menunjukkan cara pembulatan.
-        int dibulatkanInt = Math.round(akhirInt);
-
-
-        // ===== SELISIH INT DAN DOUBLE =====
-        // Menunjukkan perbedaan antara hasil double dan hasil int.
-        //
-        // Contoh:
-        // Double = 79.1
-        // Int    = 78
-        //
-        // Selisih = 79.1 - 78
-        //         = 1.1
+        // Selisih antara versi double dan versi int
         double selisihInt = akhir - akhirInt;
 
+        // Pembulatan untuk versi int
+        int dibulatkanInt = Math.round(akhirInt);
 
-        // ===== STATUS LULUS =====
-        // Status lulus menggunakan boolean.
-        // Jika nilai akhir >= 60 maka hasilnya true.
-        // Jika nilai akhir < 60 maka hasilnya false.
+        // Coba input 85, 78, 70, 80 -> dipotong = dibulatkan = 79 (sama)
+        // Coba input 85, 80, 75, 90 -> dipotong = 83, dibulatkan = 84 (beda)
+
+        // Status lulus, tanpa pakai if
         boolean lulus = akhir >= 60;
 
-
         // ===== TAMPILKAN HASIL =====
+        // Menampilkan hasil
         System.out.println();
         System.out.println("===== NILAI AKHIR =====");
-
         System.out.println("Praktikum : " + praktikum + " (30%)");
         System.out.println("Tugas     : " + tugas + " (20%)");
         System.out.println("MID       : " + mid + " (20%)");
         System.out.println("Final     : " + finalNilai + " (30%)");
 
-
-        // ===== HASIL DOUBLE =====
+        // ===== VERSI DOUBLE =====
         System.out.println();
         System.out.println("===== VERSI DOUBLE =====");
+        System.out.println("Nilai akhir         : " + akhir);
+        System.out.println("Dipotong (int)      : " + dipotong);
+        System.out.println("Dibulatkan (round)  : " + dibulatkan);
+        System.out.println("Selisih             : " + selisih);
 
-        System.out.println("Nilai akhir        : " + akhir);
-        System.out.println("Dipotong (int)     : " + dipotongDouble);
-        System.out.println("Dibulatkan (round) : " + dibulatkanDouble);
-        System.out.println("Selisih             : " + selisihDouble);
-
-
-        // ===== HASIL INT =====
+        // ===== VERSI INT =====
         System.out.println();
         System.out.println("===== VERSI INT =====");
+        System.out.println("Nilai akhir (int)   : " + akhirInt);
+        System.out.println("Dibulatkan (round)  : " + dibulatkanInt);
+        System.out.println("Selisih dengan double: " + selisihInt);
 
-        System.out.println("Nilai akhir (int)  : " + akhirInt);
-        System.out.println("Dibulatkan (round) : " + dibulatkanInt);
-        System.out.println("Selisih             : " + selisihInt);
-
-
-        // ===== STATUS =====
         System.out.println();
-        System.out.println("Lulus (>=60)       : " + lulus);
+        System.out.println("Lulus (>=60)        : " + lulus);
+
+        System.out.println();
+        System.out.println("Catatan: versi double = " + akhir + ", versi int = " + akhirInt
+                + " -> beda karena int/int dibulatkan ke bawah di tiap komponen.");
 
         scanner.close();
     }
